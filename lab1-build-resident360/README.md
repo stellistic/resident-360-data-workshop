@@ -204,8 +204,16 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
 
    ![The ⋯ menu on the Files node with New subfolder.](../docs/images/lab1/lab1-2a-files-menu.png)
 
-2. Hover **`landing`** → **⋯** → **Upload → Upload files** → select **all seven files** from the kit's `data/` folder →
-   **Upload**. Watch each file reach a green **Completed** check, then confirm the folder shows *"Files 7"*.
+2. Hover **`landing`** → **⋯** → **Upload → Upload files** → select **all seven files** from the kit's `data/` folder.
+
+   > ⚠️ **Check the destination before you upload.** The Upload pane shows the target path at the top, and it takes
+   > that path from whichever node you opened the menu on. It must end in **`/lh_resident360/Files/landing/`**. If it
+   > ends in `/Files/` you opened the menu on **Files** instead of **landing** — close the pane and start again from
+   > the `landing` folder. Uploading one level too high succeeds silently, and the notebook then finds no files at
+   > **Run all**, a long way from the cause.
+
+   Then click **Upload** — selecting the files does not upload them, the pane stages them and waits for that button.
+   Watch each file reach a green **Completed** check, then confirm the folder shows *"Files 7"*.
 
    ![The Upload files panel with all seven files showing Completed.](../docs/images/lab1/lab1-2a-upload-complete.png)
 
