@@ -1,0 +1,34 @@
+# Jupyter / notebook artifacts
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Spark / Fabric local run artifacts
+spark-warehouse/
+metastore_db/
+derby.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+# OneDrive sync conflict copies
+*-*conflict*
+*—*.md
+
+# Secrets — never commit credentials or tenant coordinates
+*.env
+.env
+secrets.*
+
+# Private facilitator records (live tenant coordinates) — keep out of the public repo
+*deployment-record*
+*.private.md
+*.secret.*
