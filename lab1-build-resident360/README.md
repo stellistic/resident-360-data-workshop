@@ -80,8 +80,10 @@ Fabric with **zero copies** (Fabric reads them live).
 
 1. Open your assigned workspace **`HPB Workshop - <Your Name>`**. On the toolbar click **+ New item**.
 
-   > **Note:** a fresh workspace opens on a **"predesigned task flow"** panel at the top — ignore it. Everything in
-   > this lab starts from the **+ New item** button on the toolbar.
+   > **Note:** the first time you open your workspace, a dialog titled **"Introducing task flows"** appears over
+   > the whole page. Click **Got it** to dismiss it — **+ New item** is behind it and cannot be clicked until you
+   > do. A "predesigned task flow" panel then remains at the top of the list; ignore that one. Everything in this
+   > lab starts from the **+ New item** button on the toolbar.
 
    ![Empty workspace with the "+ New item" button on the toolbar.](../docs/images/lab1/lab1-01-workspace-newitem.png)
 
