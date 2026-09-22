@@ -272,12 +272,18 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    ![Import → Notebook → From this computer.](../docs/images/lab1/lab1-2b-import-notebook-menu.png)
 
 4. Open the notebook → Explorer **Add data items → From OneLake catalog** → check your **`lh_resident360`**
-   **Lakehouse** (the one whose Location is your workspace — **not** its SQL analytics endpoint) → **Add**.
+   **Lakehouse** → **Add**.
 
    ![The OneLake catalog picker; select the Lakehouse, not the SQL endpoint.](../docs/images/lab1/lab1-2b-onelake-picker.png)
 
-   > ⚠️ The picker lists `lh_resident360` more than once. Select the **Lakehouse** — it's the one that can read
-   > `Files/landing/` and write tables. The SQL endpoint can't write, so the run would fail.
+   > ⚠️ **The picker lists `lh_resident360` twice — tell them apart by the icon, not the text.**
+   > Both rows show the same **Name**, the same **Owner** and the same **Location**, so there is nothing in the
+   > words to choose between them. The **Lakehouse** icon is a house with a wave through it. The **SQL analytics
+   > endpoint** icon is a rounded square with a grid of dots — the same icon you will see next to
+   > `hpb_databricks_mirror` and `metadatadb`.
+   >
+   > Pick the **house-and-wave** one. It is the only one that can read `Files/landing/` and write tables; the SQL
+   > endpoint cannot write, so **Run all** would fail partway with a permissions or write error.
 
    Once attached, the Explorer shows **`lh_resident360`** and the notebook is ready to **Run all**.
 
@@ -364,6 +370,11 @@ tables so it and the Lab 4 ontology cover the **same governed medallion data** �
    - Click **Confirm**.
 
    > ⚠️ Tick the **checkbox glyph** on each table row — clicking the row *name* only highlights it. Confirm all six are checked before **Confirm**.
+
+   > ⚠️ **If a red "1 error occurred" banner appears after Confirm, do not click Confirm again.** Observed once
+   > during dry runs: the banner appeared *and* `sm_resident360` was created correctly anyway. Check the workspace
+   > list first — if the model is there, carry on to 3b. Clicking **Confirm** a second time creates a duplicate
+   > model, and the rest of the lab then points at the wrong one.
 
    ![The New semantic model dialog: name sm_resident360, Direct Lake on SQL, resident_360 and the five silver facts all checked.](../docs/images/lab1/lab1-3a-new-sm-tables.png)
 
