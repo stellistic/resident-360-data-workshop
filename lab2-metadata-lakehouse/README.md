@@ -130,7 +130,7 @@ Now make your transform **report** each run into the framework.
 
    ```python
    q("""
-   SELECT item_name, load_type, rows_written, status,
+   SELECT TOP 20 item_name, load_type, rows_written, status,
           copy_duration AS seconds, event_end_time
    FROM mtd.ingest_audit
    ORDER BY event_end_time DESC
@@ -139,6 +139,13 @@ Now make your transform **report** each run into the framework.
 
 2. Each row is one **traceable** load event: which table, how many rows, success/failure, how long, and when.
 3. Find the row for **`gold.resident_360`** — that's your unified view's load, now on the record.
+
+   > **Why `TOP 20`?** `mtd.ingest_audit` is the *hub's* table: it holds every load event from
+   > **every** spoke — all ~20 participants — plus every previous run and the facilitator's
+   > preflight. Without `TOP 20` this returns hundreds of rows and your own run is buried.
+   > Because the sort is newest-first, the rows your audit hook just wrote are at the top.
+   > Your hook printed a short run id (`✅ Audit hook completed (run abc12345)`) — if you want to
+   > see only your own load, add `WHERE event_run_id LIKE 'abc12345%'` using **your** id.
 
 ![Reading the mtd.ingest_audit table from the notebook — your latest run tops the list with gold.resident_360 at 1500 rows and the status reported by the audit hook.](../docs/images/lab2/lab2-03-read-audit.png)
 
