@@ -70,10 +70,17 @@ flowchart LR
 > run, plus the model **`resident360_disengagement`** registered in the workspace. The screenshot is illustrative;
 > exact winner and metrics can vary.
 
-> **Note:** The dependency cell installs LightGBM/XGBoost only **if the session lacks them** (~1 min, with one
-> kernel restart) — that's expected and the run continues automatically. In practice the Fabric ML runtime
-> already ships them (observed: **LightGBM 4.3.0**, **XGBoost 2.0.3**), so the install is normally skipped and
-> the cell just prints the versions. You do not need to add a `pip install` of your own.
+> ⚠️ **On a cold session, `Run all` stops after the first cell — click `Run all` again.**
+> The dependency cell installs LightGBM/XGBoost when the session lacks them (~1 min) and then **restarts the
+> kernel**. That restart **aborts the rest of the `Run all`**: the status bar drops to **Not connected**, cells
+> 2 onwards never execute, and *nothing tells you*. Cell 1 shows
+> `Warning: PySpark kernel has been restarted to use updated packages.` — when you see that, simply click
+> **Run all** a second time. The packages are installed by then, so the second pass runs straight through
+> (about 2 minutes) and no further restart happens.
+>
+> On a warm session the imports succeed, no install or restart occurs, and the first `Run all` completes
+> normally. Either way you do not need to add a `pip install` of your own. Observed versions:
+> **LightGBM 4.3.0**, **XGBoost 2.0.3**.
 
 ### Task 2 — Compare runs in the experiment
 1. Workspace → open **Experiments → `resident360-disengagement`**.
