@@ -89,6 +89,16 @@ Fabric with **zero copies** (Fabric reads them live).
 
 2. In the panel, search `lakehouse` and click the **Lakehouse** tile.
 
+   > **A second first-run pop-up appears here.** Inside the New item panel, a teaching callout titled
+   > **"Add to favorites" (1 of 2)** appears over the tiles with a dimmed backdrop. Like the task-flows dialog,
+   > it *blocks clicks on the tiles underneath* — a tile will look perfectly normal and simply not respond.
+   > Click **Next** through both callouts, or **×** to close. It appears once per account, so you will not see
+   > it again after Task 1.
+   >
+   > Also note the panel has **its own** *Filter by keyword* box on the right. Typing into the Fabric search bar
+   > at the very top of the page instead returns *"No results found"* — that bar searches your content, not
+   > item types.
+
    ![The New item panel with the Lakehouse tile.](../docs/images/lab1/lab1-02-newitem-panel.png)
 
 3. Name it **`lh_resident360`**, keep **Lakehouse schemas** checked, click **Create**.
@@ -98,33 +108,50 @@ Fabric with **zero copies** (Fabric reads them live).
 
    ![The New Lakehouse dialog with "lh_resident360" entered and Lakehouse schemas checked.](../docs/images/lab1/lab1-04-lakehouse-named.png)
 
+   The Lakehouse opens on its own explorer once created. **Tables** and **Files** are both empty — that is
+   expected; you fill them in Task 2.
+
+   ![The newly created lh_resident360 Lakehouse, with empty Tables and Files.](../docs/images/lab1/lab1-05-lakehouse-created.png)
+
 4. Back in the workspace, click **+ New item** again → search `Mirrored Azure Databricks` → click the
    **Mirrored Azure Databricks catalog** tile.
 
    ![The New item panel filtered to the Mirrored Azure Databricks catalog tile.](../docs/images/lab1/lab1-06-newitem-mirror-search.png)
 
-5. In the wizard, the connection dropdown starts **empty** — no connection exists yet, so select **New connection**
-   and fill in the shared Databricks details your facilitator provides:
-   - **Databricks workspace URL** — e.g. `https://adb-....azuredatabricks.net`
-   - **Authentication kind** — choose **Organizational account**. This is the OAuth 2.0 delegated sign-in: clicking
-     **Sign in** opens a pop-up window where you authenticate as *yourself*, and the connection then runs under your
-     own identity. Do **not** pick Personal access token or Workspace identity — neither can read the mirrored files.
+5. In the wizard, **Existing connection** is already selected and a **Connection name** dropdown reads
+   *Select connection*. Choose **New connection**, then fill in **Connection settings**:
 
-   Click **Connect** (or **Next**).
+   ![The Mirrored Azure Databricks Catalog wizard on its New source step.](../docs/images/lab1/lab1-07-mirror-newsource.png)
 
-   > **Allow pop-ups for `app.fabric.microsoft.com`.** The sign-in opens in a new window; if your browser blocks it,
-   > the wizard looks like it has hung. Use a normal desktop browser tab for this step — embedded or in-app browser
-   > views often cannot complete the pop-up handshake.
+   - **URL** — the shared Databricks workspace URL your facilitator provides, e.g.
+     `https://adb-....azuredatabricks.net`
 
-   ![The New connection form for the Mirrored Azure Databricks catalog, with the workspace URL and OAuth sign-in.](../docs/images/lab1/lab1-08-mirror-connection.png)
+   **As soon as you finish typing the URL, the panel changes.** Fabric matches it against the connections you
+   already have access to and auto-selects the shared room connection, showing
+   **Authentication kind: Service principal**. The *Sign in* prompt disappears and **Connect** turns green.
 
-   > **If the sign-in pop-up stalls, you have a way through.** A shared connection has been set up for the room
-   > in advance. Open the connection dropdown, keep **Existing connection**, and select the one listed by its
-   > Databricks **URL** (`https://adb-....azuredatabricks.net`). The mirror then works identically.
+   That is the fast path and it works — click **Connect** and continue to step 6.
+
+   ![The New connection form, with the Databricks URL entered and a connection auto-selected.](../docs/images/lab1/lab1-08-mirror-connection.png)
+
+   > **Optional, and the more realistic one: connect as *yourself*.** The auto-selected connection runs under a
+   > shared service identity, so Databricks audit logs show that identity rather than your name. In your own
+   > tenant you would connect as yourself instead, and it is worth seeing once.
    >
-   > Try your own sign-in first — connecting as yourself is the point of the step, and it is what you would do in
-   > your own tenant. The shared connection is there so a blocked pop-up costs you seconds rather than the lab.
-   > It runs under a service identity, so the Databricks audit trail shows that identity rather than your name.
+   > To do that, after typing the URL open the **Connection** dropdown and pick **Create new connection**. The
+   > **Authentication kind** returns as **Organizational account** — the OAuth 2.0 delegated sign-in — along with
+   > a **Sign in** button. Do **not** pick Personal access token or Workspace identity; neither can read the
+   > mirrored files.
+   >
+   > Clicking **Sign in** opens a separate **"Pick an account"** window. Choose your workshop account — you are
+   > already signed in, so there is no password to type. The window closes by itself and **Connect** enables.
+
+   > **Allow pop-ups for `app.fabric.microsoft.com`.** The sign-in opens in a new window; if your browser blocks
+   > it, the wizard looks like it has hung. Use a normal desktop browser tab for this step — embedded or in-app
+   > browser views often cannot complete the pop-up handshake.
+   >
+   > If sign-in ever says *"Sign in canceled,"* click **Sign in** again (1–3 tries). If it will not complete at
+   > all, fall back to the auto-selected shared connection above; the mirror then works identically.
 
 6. Choose catalog **`hpb_databricks`**, check the **`gold`** schema → **Next**.
 
@@ -135,8 +162,7 @@ Fabric with **zero copies** (Fabric reads them live).
    ![The Review step with the name set to hpb_databricks_mirror.](../docs/images/lab1/lab1-10-mirror-review-name.png)
 
    > **Name check:** the notebooks expect **`hpb_databricks_mirror.gold`**. Use the mirror name above exactly;
-   > otherwise the notebook table references will not resolve. If sign-in ever says *"Sign in canceled,"* click
-   > **Sign in** again (1–3 tries).
+   > otherwise the notebook table references will not resolve.
    >
    > **If you get the name wrong:** the item name *becomes* the Spark catalog name, so a mis-named mirror makes every
    > notebook cell fail with `TABLE_OR_VIEW_NOT_FOUND`. You can rename the item afterwards — but Spark caches the
