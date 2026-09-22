@@ -179,8 +179,12 @@ Fabric with **zero copies** (Fabric reads them live).
    > catalog list **per session**, so you must then **stop and restart your notebook's Spark session** before the new
    > name resolves. Renaming alone is not enough.
 
-8. The `gold` tables sync in 1–3 min. **Verify (zero-copy):** open **`hpb_databricks_mirror`**, then switch to its
-   **SQL analytics endpoint**. There are two ways to get there:
+8. The `gold` tables sync in 1–3 min. Open **`hpb_databricks_mirror`** — you should see the five `gold` tables
+   listed, with **Mirrored / Success** status. Fabric is reading them in place; there is no copy.
+
+   ![The mirror showing the five gold tables with Mirrored status.](../docs/images/lab1/lab1-11-mirror-tables.png)
+
+   **Verify (zero-copy):** switch to its **SQL analytics endpoint**. There are two ways to get there:
    - Inside the open mirror, click the **Databricks** dropdown (top-right) → **SQL analytics endpoint**, **or**
    - Click the green **View SQL endpoint** button in the centre of the mirror's page.
 
