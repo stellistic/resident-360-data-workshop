@@ -126,11 +126,15 @@ Fabric with **zero copies** (Fabric reads them live).
    - **URL** — the shared Databricks workspace URL your facilitator provides, e.g.
      `https://adb-....azuredatabricks.net`
 
-   **As soon as you finish typing the URL, the panel changes.** Fabric matches it against the connections you
-   already have access to and auto-selects the shared room connection, showing
-   **Authentication kind: Service principal**. The *Sign in* prompt disappears and **Connect** turns green.
+   **As soon as you finish typing the URL, the panel changes** — but give it a moment. A spinner appears beside
+   **Connection** while Fabric looks for a connection matching that URL. Until it settles the panel still reads
+   *"You are not signed in. Please sign in."*, which is easy to mistake for the final state.
 
-   That is the fast path and it works — click **Connect** and continue to step 6.
+   Once it settles, Fabric has auto-selected the shared room connection and shows
+   **Authentication kind: Service principal**. The sign-in prompt disappears and **Connect** turns green.
+
+   That is the fast path. Click **Connect** — it validates the connection and then **relabels itself to Next**.
+   The wizard does not move on by itself; click **Next** to reach **Choose data**.
 
    ![The New connection form, with the Databricks URL entered and a connection auto-selected.](../docs/images/lab1/lab1-08-mirror-connection.png)
 
@@ -153,11 +157,17 @@ Fabric with **zero copies** (Fabric reads them live).
    > If sign-in ever says *"Sign in canceled,"* click **Sign in** again (1–3 tries). If it will not complete at
    > all, fall back to the auto-selected shared connection above; the mirror then works identically.
 
-6. Choose catalog **`hpb_databricks`**, check the **`gold`** schema → **Next**.
+6. On **Choose data**, open **Catalog name** → **Select a catalog** and pick **`hpb_databricks`**. The table tree
+   only appears once a catalog is chosen — before that the page reads *"No catalog selected"* and **Next** stays
+   greyed out. Then check the **`gold`** schema → **Next**.
 
    ![The Choose data step with hpb_databricks and the gold schema checked.](../docs/images/lab1/lab1-09-mirror-choosedata.png)
 
 7. On **Review and create**, set the **Name** to **`hpb_databricks_mirror`** → **Create**.
+
+   > ⚠️ **The Name box is pre-filled with `hpb_databricks`** — the catalog's own name. You must change it. Leaving
+   > the default creates a mirror the notebooks cannot resolve, and the failure surfaces much later as
+   > `TABLE_OR_VIEW_NOT_FOUND` in Task 2.
 
    ![The Review step with the name set to hpb_databricks_mirror.](../docs/images/lab1/lab1-10-mirror-review-name.png)
 
