@@ -78,7 +78,7 @@ Use these names exactly when checking notebook output or building downstream ite
 **A Lakehouse** is the storage container for all your tables; **mirroring** brings the Databricks `gold` tables into
 Fabric with **zero copies** (Fabric reads them live).
 
-1. Open your assigned workspace **`HPB Workshop - <Your Name>`**. On the toolbar click **+ New item**.
+1. Open your assigned workspace **`HPB Resident 360 (<your username>)`**. On the toolbar click **+ New item**.
 
    > **Note:** the first time you open your workspace, a dialog titled **"Introducing task flows"** appears over
    > the whole page. Click **Got it** to dismiss it — **+ New item** is behind it and cannot be clicked until you
@@ -118,8 +118,13 @@ Fabric with **zero copies** (Fabric reads them live).
 
    ![The New connection form for the Mirrored Azure Databricks catalog, with the workspace URL and OAuth sign-in.](../docs/images/lab1/lab1-08-mirror-connection.png)
 
-   > If a connection was **already** set up for you, it appears in the dropdown listed by its Databricks **URL**
-   > (`https://adb-....azuredatabricks.net`) — keep **Existing connection** and select it.
+   > **If the sign-in pop-up stalls, you have a way through.** A shared connection has been set up for the room
+   > in advance. Open the connection dropdown, keep **Existing connection**, and select the one listed by its
+   > Databricks **URL** (`https://adb-....azuredatabricks.net`). The mirror then works identically.
+   >
+   > Try your own sign-in first — connecting as yourself is the point of the step, and it is what you would do in
+   > your own tenant. The shared connection is there so a blocked pop-up costs you seconds rather than the lab.
+   > It runs under a service identity, so the Databricks audit trail shows that identity rather than your name.
 
 6. Choose catalog **`hpb_databricks`**, check the **`gold`** schema → **Next**.
 

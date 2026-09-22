@@ -168,7 +168,7 @@ Now make your transform **report** each run into the framework.
 
 ### Task 5 — Trace it end-to-end
 
-1. In **your own** workspace (`HPB Workshop - <Your Name>`), switch to **Lineage view** (top-right toggle, next to
+1. In **your own** workspace (`HPB Resident 360 (<your username>)`), switch to **Lineage view** (top-right toggle, next to
    the search box).
 2. Follow **your spoke's** chain end-to-end: **`hpb_databricks_mirror` ← the Azure Databricks source**, and
    **`lh_resident360` → its SQL endpoint → `sm_resident360` → `rpt_resident360`** — with the `resident360_medallion`
