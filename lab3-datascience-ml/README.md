@@ -83,10 +83,34 @@ flowchart LR
 > **LightGBM 4.3.0**, **XGBoost 2.0.3**.
 
 ### Task 2 — Compare runs in the experiment
-1. Workspace → open **Experiments → `resident360-disengagement`**.
-2. Select the runs → **Compare** → sort by **auc**. See how the model families and hyperparameters stack up.
 
-![Experiment run comparison — all runs selected, with accuracy / auc / f1 charts across the model families](../docs/images/lab3/lab3-02-experiment.png)
+1. In your workspace list, click **`resident360-disengagement`** (item type **Experiment**).
+
+   It opens in **Details** view, showing one run at a time. **There is no "Compare" button** — the
+   comparison lives in the *list* view.
+
+   ![The experiment's Details view: the Compare runs card with its View run list button.](../docs/images/lab3/lab3-02a-run-list.png)
+
+2. Switch to the list: click **View run list** on the **Compare runs** card (above), or use the ribbon
+   **View → List**.
+
+   You now get one row per run, with **auc**, **accuracy** and **f1** as sortable columns. Click the
+   **auc** column header to rank them.
+
+3. **Tick the checkbox on two or more runs.** The **Metric comparison** panel along the bottom fills in
+   as soon as the second one is selected — it has **Performance** and **Training** tabs. Until then it
+   just says *"Select runs to compare their metrics"*. Ticking all of them is the interesting view: the
+   three model families side by side.
+
+   *(The **Customize columns** pane on the right toggles which metrics and parameters are shown —
+   `C`, `max_depth`, `n_estimators`, `num_leaves` and so on, so you can see which hyperparameter moved
+   which metric.)*
+
+> **Why does `register_logreg_C3.0` have an `auc` but no `accuracy` or `f1`?** That run is the
+> *registration* step from Section 5 of the notebook, not a training run — it logs the winning model,
+> not a fresh evaluation. The seven runs below it are the trained ones.
+
+![The experiment's List view with all eight runs ticked: auc / accuracy / f1 columns above, and the Metric comparison charts filled in below.](../docs/images/lab3/lab3-02-experiment.png)
 
 > **Fun fact:** MLflow is the same open-source tracking you may use in Databricks — it works natively in Fabric,
 > no setup required.
