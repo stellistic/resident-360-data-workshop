@@ -319,7 +319,15 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    2. In the left **Operations** panel, choose **Find and replace → Drop missing values**, select the **`calories`**
       column, and **Apply** — the row count drops from **5,000 to 4,998** (that column has exactly two missing
       values) and the change appears in the **Cleaning steps** list.
-   3. Try a second operation, e.g. **Schema → Change column type** on `calories` → **Decimal**.
+   3. Try a second operation: **Schema → Change column type**, target column `calories`, **New type →
+      `float64`**.
+
+      > **There is no "Decimal" in that list.** Data Wrangler converts your Spark DataFrame into a **pandas
+      > sample** (the blue banner at the top says so), so the **New type** dropdown offers *pandas* dtypes —
+      > `object`, `string`, `float16/32/64`, `int8/16/32/64`, `datetime64[ns]` and so on — not Spark or SQL
+      > types. **`float64`** is the decimal one. The Bronze read has no schema inference, so `calories`
+      > arrives as text; converting it to `float64` is a real change. Picking `object` leaves it as text and
+      > the preview will tell you **"Data is unchanged"**.
    4. Click **Add code to notebook** (top right) — Data Wrangler adds the equivalent PySpark into a new cell so you
       can see how the selections became code. *(You don't need to run it — the notebook's Silver step performs the
       authoritative cleaning; this step is only to experience the tool.)*
