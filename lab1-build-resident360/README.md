@@ -418,7 +418,30 @@ tables so it and the Lab 4 ontology cover the **same governed medallion data** �
    - **To table:** `resident_360`, **column** `resident_id`
    - **Cardinality:** **Many to one (\*:1)** · **Cross-filter direction:** **Single** · **Make active:** on → **Save**.
 
-   Repeat for all five facts (`fact_event_attendance`, `fact_meal_log`, `fact_rewards`, `fact_programme_enrolment`, `fact_challenge`).
+   **Build the first one by hand** — `fact_event_attendance` — so you have seen the dialog and what each
+   setting does. Then let **Copilot** do the remaining four.
+
+   On the ribbon open **Copilot** and paste the prompt below. *(You must be in **Editing** mode — the
+   whole ribbon, Copilot included, is greyed out in **Viewing** mode.)*
+
+   ```text
+   In this semantic model, create four relationships. Each one goes from the fact table's
+   resident_id column to resident_360[resident_id], with cardinality many-to-one (*:1),
+   cross-filter direction Single, and set to active:
+
+   1. fact_meal_log[resident_id] -> resident_360[resident_id]
+   2. fact_rewards[resident_id] -> resident_360[resident_id]
+   3. fact_programme_enrolment[resident_id] -> resident_360[resident_id]
+   4. fact_challenge[resident_id] -> resident_360[resident_id]
+
+   Do not create any other relationships.
+   ```
+
+   > ⚠️ **Check Copilot's work — it is not deterministic.** When it finishes, open **Manage relationships**
+   > and confirm there are **exactly five** rows, every one *:1, Single, Active, and joined on `resident_id`.
+   > The most common miss is a relationship created in the wrong direction (1:* instead of *:1), which makes
+   > the fact table filter `resident_360` rather than the other way round. The measure sanity check in 3c
+   > catches it: `Meals Logged` returns blank if `fact_meal_log` is not traversing.
 
    > **Direct Lake note:** the editor always pre-fills *Many to one / Single* and can't preview data to validate — that's expected, and the defaults are correct here.
 
@@ -458,8 +481,34 @@ at intent. Named measures make Task 4 and Lab 4 markedly better, and they take t
    > reaching **20,481** proves your relationship to `fact_meal_log` is actually traversing —
    > if it returns blank, the relationship in 3b did not save.
 
-   > **Short on time?** Add the first three. `Disengagement Rate` is the one the report and
-   > both Lab 4 agents lean on hardest.
+   **Add the first three by hand** — `Residents`, `Disengaged Residents`, `Disengagement Rate` — so you
+   have used the formula bar and the format box. Then let **Copilot** add the other eight.
+
+   On the ribbon open **Copilot** and paste the prompt below. *(You must be in **Editing** mode — the
+   whole ribbon, Copilot included, is greyed out in **Viewing** mode.)*
+
+   ```text
+   In this semantic model, add these eight measures to the resident_360 table, using exactly
+   the DAX and format string given. Do not change the names, the DAX, or the formats.
+
+   Avg Daily Steps          = AVERAGE('resident_360'[avg_daily_steps])                                        format #,0
+   Avg MVPA Minutes         = AVERAGE('resident_360'[avg_mvpa_min])                                           format #,0.0
+   Events Attended          = SUM('resident_360'[events_attended])                                            format #,0
+   Programmes Dropped       = SUM('resident_360'[programmes_dropped])                                         format #,0
+   Healthpoints Earned      = SUM('resident_360'[healthpoints_earned])                                        format #,0
+   Meals Logged             = COUNTROWS('fact_meal_log')                                                      format #,0
+   Avg Region PSI           = AVERAGE('resident_360'[region_psi])                                             format #,0
+   Not Screened Residents   = CALCULATE(COUNTROWS('resident_360'), 'resident_360'[screening_risk] = "Not Screened")   format #,0
+   ```
+
+   > ⚠️ **Check Copilot's work — it is not deterministic.** It may rename a measure, rewrite the DAX into
+   > something equivalent-looking, or put a measure on the wrong table. Use the sanity check above: if
+   > `Residents` is not **1,500**, `Not Screened Residents` not **419**, or `Meals Logged` not **20,481**,
+   > open the measure and compare it against the table. `Meals Logged` is the one that depends on 3b's
+   > relationships, so a blank there points back to a relationship, not to the measure.
+
+   > **Short on time?** The first three are enough to carry on. `Disengagement Rate` is the one the report
+   > and both Lab 4 agents lean on hardest.
 
    ![The sm_resident360 model view: resident_360 in the centre with *→1 relationship lines from the five fact tables.](../docs/images/lab1/lab1-3b-relationship-line.png)
 
