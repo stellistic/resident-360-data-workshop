@@ -70,17 +70,14 @@ flowchart LR
 > run, plus the model **`resident360_disengagement`** registered in the workspace. The screenshot is illustrative;
 > exact winner and metrics can vary.
 
-> ⚠️ **On a cold session, `Run all` stops after the first cell — click `Run all` again.**
-> The dependency cell installs LightGBM/XGBoost when the session lacks them (~1 min) and then **restarts the
-> kernel**. That restart **aborts the rest of the `Run all`**: the status bar drops to **Not connected**, cells
-> 2 onwards never execute, and *nothing tells you*. Cell 1 shows
-> `Warning: PySpark kernel has been restarted to use updated packages.` — when you see that, simply click
-> **Run all** a second time. The packages are installed by then, so the second pass runs straight through
-> (about 2 minutes) and no further restart happens.
+> ⚠️ **If cell 1 reports `PySpark kernel has been restarted to use updated packages.`, click `Run all`
+> again.** On a cold session the dependency cell installs LightGBM/XGBoost (~1 min) and restarts the kernel,
+> which ends that first `Run all` — the status bar drops to **Not connected** and the later cells are left
+> unrun. The second pass has the packages already, so it runs straight through in about two minutes with no
+> further restart.
 >
-> On a warm session the imports succeed, no install or restart occurs, and the first `Run all` completes
-> normally. Either way you do not need to add a `pip install` of your own. Observed versions:
-> **LightGBM 4.3.0**, **XGBoost 2.0.3**.
+> A warm session skips the install altogether and the first `Run all` completes normally. Either way there is
+> no need to add a `pip install` of your own. Observed versions: **LightGBM 4.3.0**, **XGBoost 2.0.3**.
 
 ### Task 2 — Start the endpoint activation (then leave it running)
 
@@ -91,21 +88,18 @@ Kick it off now and compare your runs while it works — by the time you come ba
    (native flavor = servable), so there is nothing to register by hand.
 2. In the workspace list click **`resident360_disengagement`** (item type **ML model**).
 3. In the version list on the left, click **Version 1**. The **Version details** page opens.
-4. On the **Home** ribbon, at the right-hand end, click **Activate version endpoint** — then **choose
-   *Activate version endpoint* from the menu that drops down**.
+4. On the **Home** ribbon, at the right-hand end, click **Activate version endpoint** (it sits to the right
+   of **Compare endpoint metrics**), then **choose *Activate version endpoint* from the menu that opens**.
 
-   > ⚠️ **It is a menu button, not a plain button.** Note the small chevron. Clicking the button only
-   > opens a menu containing *Activate version endpoint* and *Deactivate version endpoint*; if you click
-   > the button and walk away, **nothing happens and nothing tells you** — the endpoint stays `Inactive`.
-   > You must pick the item.
+   > ⚠️ **Take the menu item, not just the button.** The control has a small chevron: clicking it opens a
+   > menu of *Activate* / *Deactivate*, and the endpoint only starts once you pick **Activate version
+   > endpoint** from that menu. Clicking the button alone leaves the status at `Inactive` with no warning.
 
-   > **This must happen before you can set a default version.** The Manage endpoints pane will not accept a
-   > default until that version has an *active* endpoint — it warns *"Select a version with an active
-   > endpoint, or activate the endpoint for this default version."* Activate first, set the default after.
+   > **Activate before setting a default version.** Manage endpoints accepts a default only once that
+   > version has an *active* endpoint, so do this step first and set the default in Task 4.
 
-   > **Can't see it?** It is on the **Home** ribbon of the *version details* page — not the model page —
-   > to the right of **Compare endpoint metrics**. The ribbon collapses it on a narrow window; maximise
-   > or zoom out.
+   > **Looking for the button?** It is on the **Home** ribbon of the *version details* page, so make sure
+   > you clicked **Version 1** first. On a narrow window the ribbon collapses it — maximise or zoom out.
 
 5. **Status** under *Endpoint details* moves `Inactive → Activating → Active`. It lags — use **Refresh**.
 
@@ -122,8 +116,8 @@ Kick it off now and compare your runs while it works — by the time you come ba
 
 1. In your workspace list, click **`resident360-disengagement`** (item type **Experiment**).
 
-   It opens in **Details** view, showing one run at a time. **There is no "Compare" button** — the
-   comparison lives in the *list* view.
+   It opens in **Details** view, which shows one run at a time. The side-by-side comparison lives in the
+   **list** view, so switch to it next.
 
    ![The experiment's Details view: the Compare runs card with its View run list button.](../docs/images/lab3/lab3-02a-run-list.png)
 
@@ -158,8 +152,9 @@ Kick it off now and compare your runs while it works — by the time you come ba
 1. Go back to **`resident360_disengagement` → Version 1** and confirm **Status = Active** (click **Refresh**
    if it still says *Activating*). Registry scoring in step 4 below works either way, but the live endpoint
    call in step 5 does not.
-2. Ribbon → **Manage endpoints**. Set **Default version → Version 1**. It applies immediately — there is no
-   Save button. Without this the friendly URL returns **HTTP 404** (`EndpointOrResourceNotFound`).
+2. Ribbon → **Manage endpoints**. Set **Default version → Version 1**; the choice applies immediately, so
+   just close the pane when done. Setting it is what makes the friendly `/score` URL resolve — without it
+   that URL returns **HTTP 404** (`EndpointOrResourceNotFound`).
 3. Still in **Manage endpoints**, copy the **Model endpoint URL** (it ends with `/score`) for step 5.
 
 **Now score.**

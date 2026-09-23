@@ -276,11 +276,10 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
 
    ![The OneLake catalog picker; select the Lakehouse, not the SQL endpoint.](../docs/images/lab1/lab1-2b-onelake-picker.png)
 
-   > ⚠️ **The picker lists `lh_resident360` twice — tell them apart by the icon, not the text.**
-   > Both rows show the same **Name**, the same **Owner** and the same **Location**, so there is nothing in the
-   > words to choose between them. The **Lakehouse** icon is a house with a wave through it. The **SQL analytics
-   > endpoint** icon is a rounded square with a grid of dots — the same icon you will see next to
-   > `hpb_databricks_mirror` and `metadatadb`.
+   > ⚠️ **`lh_resident360` appears twice — pick it by its icon.** The **Lakehouse** is the house with a wave
+   > through it. The other row is its **SQL analytics endpoint**, whose icon is a rounded square with a grid
+   > of dots (the same icon shown next to `hpb_databricks_mirror` and `metadatadb`). Name, Owner and
+   > Location read identically on both rows, so go by the icon.
    >
    > Pick the **house-and-wave** one. It is the only one that can read `Files/landing/` and write tables; the SQL
    > endpoint cannot write, so **Run all** would fail partway with a permissions or write error.
@@ -306,28 +305,25 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    1. On the ribbon choose **Home → Data Wrangler**. It lists the notebook's in-memory **DataFrames** by
       variable name — pick **`meals`**.
 
-      > ⚠️ **Pick `meals`, with the "s". The list also contains `meal`, one letter apart, and it is a
-      > completely different table.** `meals` is the raw Bronze read — **5,000 rows × 6 columns**
-      > (`resident_id`, `log_date`, `meal_type`, `food_item`, **`calories`**, `healthier_choice_flag`).
-      > `meal` is the per-resident aggregate built later in the notebook — 1,473 rows × 4 columns, whose
-      > calorie column is **`avg_calories`**. If the header of the Data Wrangler page reads
-      > **`Data Wrangler: meal`**, you have the wrong one: go back and pick `meals`.
+      > ⚠️ **Mind the "s" — the list holds both `meals` and `meal`.** You want **`meals`**: the raw Bronze
+      > read, **5,000 rows × 6 columns** (`resident_id`, `log_date`, `meal_type`, `food_item`,
+      > **`calories`**, `healthier_choice_flag`). `meal` is the per-resident aggregate built later in the
+      > notebook, with 1,473 rows and `avg_calories` instead. Confirm you picked right by the page header:
+      > it should read **`Data Wrangler: meals`**.
 
-      *(The Explorer route — expand **`lh_resident360` → Tables → `bronze`**, hover **`h365_meal_logs`** →
-      **⋯** — also offers **Open in Data Wrangler** on some sessions, but the entry is not always present.
-      The ribbon route above always works, so use it.)*
+      *(Use the ribbon route above — it is available in every session. You may also see **Open in Data
+      Wrangler** on the **⋯** menu of `bronze.h365_meal_logs` in the Explorer; it opens the same tool.)*
    2. In the left **Operations** panel, choose **Find and replace → Drop missing values**, select the **`calories`**
       column, and **Apply** — the row count drops from **5,000 to 4,998** (that column has exactly two missing
       values) and the change appears in the **Cleaning steps** list.
    3. Try a second operation: **Schema → Change column type**, target column `calories`, **New type →
       `float64`**.
 
-      > **There is no "Decimal" in that list.** Data Wrangler converts your Spark DataFrame into a **pandas
-      > sample** (the blue banner at the top says so), so the **New type** dropdown offers *pandas* dtypes —
-      > `object`, `string`, `float16/32/64`, `int8/16/32/64`, `datetime64[ns]` and so on — not Spark or SQL
-      > types. **`float64`** is the decimal one. The Bronze read has no schema inference, so `calories`
-      > arrives as text; converting it to `float64` is a real change. Picking `object` leaves it as text and
-      > the preview will tell you **"Data is unchanged"**.
+      > **Why `float64`?** Data Wrangler works on a **pandas sample** of your Spark DataFrame (the blue
+      > banner at the top says so), so **New type** lists pandas dtypes — `object`, `string`,
+      > `float16/32/64`, `int8/16/32/64`, `datetime64[ns]`. **`float64`** is the decimal type. `calories`
+      > arrives from Bronze as text, so this is a real conversion; choosing `object` keeps it as text and
+      > the preview reports **"Data is unchanged"**.
    4. Click **Add code to notebook** (top right) — Data Wrangler adds the equivalent PySpark into a new cell so you
       can see how the selections became code. *(You don't need to run it — the notebook's Silver step performs the
       authoritative cleaning; this step is only to experience the tool.)*
@@ -339,15 +335,13 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    2. Under a running/finished cell, click **… → View Spark job** (or the **Spark jobs** link) to open the **Spark UI**
       — compare the **skewed** job (one long-running task on a single partition) with the **tuned** job (many short,
       parallel tasks after Adaptive Query Execution).
-   3. Left nav → **Monitor** → **Activities**. **You will not see "skewed" and "tuned" listed as two jobs** —
-      Activities shows **one row per item run**, and both cells run inside the *same* notebook run. Look for the
-      single row named **`resident360_medallion_<guid>`** and **click it** to open that run; the Spark detail
-      for each cell is inside.
+   3. Left nav → **Monitor** → **Activities**, then click the row named **`resident360_medallion_<guid>`**.
+      That opens your notebook run, with the Spark detail for each cell inside it.
 
-      > If that row says **In progress**, the notebook is still running and the per-cell detail will be
-      > incomplete — wait for it to reach **Succeeded** before comparing. For comparing the two jobs against
-      > each other, step 2's inline **Spark jobs** link under each cell is the faster route: it scopes
-      > straight to that one cell's job.
+      > **Activities lists one row per item run**, so both jobs live inside that single notebook row rather
+      > than appearing separately. Wait for the row to read **Succeeded** — while it says *In progress* the
+      > per-cell detail is still filling in. To compare the two jobs directly, step 2's inline **Spark jobs**
+      > link under each cell is quicker, since it scopes straight to that cell's job.
    4. Read the **resource-prioritisation** note in the cell (custom pool / Autoscale Billing for Spark) — how a
       nightly ETL and ad-hoc queries share the capacity.
 
@@ -398,10 +392,10 @@ tables so it and the Lab 4 ontology cover the **same governed medallion data** �
 
    > ⚠️ Tick the **checkbox glyph** on each table row — clicking the row *name* only highlights it. Confirm all six are checked before **Confirm**.
 
-   > ⚠️ **If a red "1 error occurred" banner appears after Confirm, do not click Confirm again.** Observed once
-   > during dry runs: the banner appeared *and* `sm_resident360` was created correctly anyway. Check the workspace
-   > list first — if the model is there, carry on to 3b. Clicking **Confirm** a second time creates a duplicate
-   > model, and the rest of the lab then points at the wrong one.
+   > ⚠️ **Seeing a red "1 error occurred" banner after Confirm?** Check your workspace list before doing
+   > anything else — `sm_resident360` is usually created despite the banner. If it is there, carry straight
+   > on to 3b. Pressing **Confirm** again would create a second model, and the rest of the lab would then
+   > point at the wrong one.
 
    ![The New semantic model dialog: name sm_resident360, Direct Lake on SQL, resident_360 and the five silver facts all checked.](../docs/images/lab1/lab1-3a-new-sm-tables.png)
 
