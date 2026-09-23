@@ -339,7 +339,15 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    2. Under a running/finished cell, click **… → View Spark job** (or the **Spark jobs** link) to open the **Spark UI**
       — compare the **skewed** job (one long-running task on a single partition) with the **tuned** job (many short,
       parallel tasks after Adaptive Query Execution).
-   3. Left nav → **Monitor** hub → open this notebook's run to see duration, status and the Spark detail for each cell.
+   3. Left nav → **Monitor** → **Activities**. **You will not see "skewed" and "tuned" listed as two jobs** —
+      Activities shows **one row per item run**, and both cells run inside the *same* notebook run. Look for the
+      single row named **`resident360_medallion_<guid>`** and **click it** to open that run; the Spark detail
+      for each cell is inside.
+
+      > If that row says **In progress**, the notebook is still running and the per-cell detail will be
+      > incomplete — wait for it to reach **Succeeded** before comparing. For comparing the two jobs against
+      > each other, step 2's inline **Spark jobs** link under each cell is the faster route: it scopes
+      > straight to that one cell's job.
    4. Read the **resource-prioritisation** note in the cell (custom pool / Autoscale Billing for Spark) — how a
       nightly ETL and ad-hoc queries share the capacity.
 
