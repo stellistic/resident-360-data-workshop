@@ -82,7 +82,43 @@ flowchart LR
 > normally. Either way you do not need to add a `pip install` of your own. Observed versions:
 > **LightGBM 4.3.0**, **XGBoost 2.0.3**.
 
-### Task 2 — Compare runs in the experiment
+### Task 2 — Start the endpoint activation (then leave it running)
+
+**Do this before Task 3.** Activation provisions a real serving endpoint and takes **several minutes**.
+Kick it off now and compare your runs while it works — by the time you come back it should be **Active**.
+
+1. Notebook `08` already **registered the winner** as `resident360_disengagement` with a scalar signature
+   (native flavor = servable), so there is nothing to register by hand.
+2. In the workspace list click **`resident360_disengagement`** (item type **ML model**).
+3. In the version list on the left, click **Version 1**. The **Version details** page opens.
+4. On the **Home** ribbon, at the right-hand end, click **Activate version endpoint** — then **choose
+   *Activate version endpoint* from the menu that drops down**.
+
+   > ⚠️ **It is a menu button, not a plain button.** Note the small chevron. Clicking the button only
+   > opens a menu containing *Activate version endpoint* and *Deactivate version endpoint*; if you click
+   > the button and walk away, **nothing happens and nothing tells you** — the endpoint stays `Inactive`.
+   > You must pick the item.
+
+   > **This must happen before you can set a default version.** The Manage endpoints pane will not accept a
+   > default until that version has an *active* endpoint — it warns *"Select a version with an active
+   > endpoint, or activate the endpoint for this default version."* Activate first, set the default after.
+
+   > **Can't see it?** It is on the **Home** ribbon of the *version details* page — not the model page —
+   > to the right of **Compare endpoint metrics**. The ribbon collapses it on a narrow window; maximise
+   > or zoom out.
+
+5. **Status** under *Endpoint details* moves `Inactive → Activating → Active`. It lags — use **Refresh**.
+
+   > **The quickest check is the ribbon itself:** once the endpoint is live, that button's label flips to
+   > **Deactivate version endpoint**. If it still reads *Activate*, it has not started.
+
+   **Do not wait here.** Go to Task 3 and come back in Task 4.
+
+---
+
+### Task 3 — Compare runs in the experiment
+
+*(Your endpoint is provisioning in the background while you do this.)*
 
 1. In your workspace list, click **`resident360-disengagement`** (item type **Experiment**).
 
@@ -115,44 +151,34 @@ flowchart LR
 > **Fun fact:** MLflow is the same open-source tracking you may use in Databricks — it works natively in Fabric,
 > no setup required.
 
-### Task 3 — Register & activate the endpoint
+### Task 4 — Finish the endpoint, then score sample residents
 
-> **Verified on a reference run.** The endpoint moved
-> `Inactive → Activating → Active` in about four minutes, and with **Default version = Version 1**
-> set, *both* URLs scored successfully:
->
-> | URL | Result |
-> |---|---|
-> | `…/mlmodels/<id>/endpoint/score` (friendly) | `HTTP 200` · `{"predictions":[[1],[1]]}` |
-> | `…/mlmodels/<id>/endpoint/versions/1/score` | `HTTP 200` · `{"predictions":[[1],[1]]}` |
->
-> Both residents scored were genuinely `is_disengaged = 1`, so `1` is the correct prediction.
-> The friendly URL only resolves **after** the default version is set — that step is not optional.
+**First, finish what Task 2 started.**
 
-1. Notebook `08` already **registers the winner** as `resident360_disengagement` with a scalar signature (native
-   flavor = servable).
-2. Open the model **`resident360_disengagement`** (from the workspace list) → select **Version 1** → in the ribbon
-   select **Activate version endpoint**. Wait for **Status = Active** (endpoint provisioning takes several
-   minutes on first activation — use **Refresh** to check).
-3. **Set the default version** so the friendly scoring URL resolves: **Manage endpoints → Default version →
-   Version 1**. The selection applies immediately (no Save button). Without this, the default endpoint URL
-   returns HTTP 404 (`EndpointOrResourceNotFound`).
-4. Open **Manage endpoints** → copy the **Model endpoint URL** (ends with `/score`) for Task 4B.
+1. Go back to **`resident360_disengagement` → Version 1** and confirm **Status = Active** (click **Refresh**
+   if it still says *Activating*). Registry scoring in step 4 below works either way, but the live endpoint
+   call in step 5 does not.
+2. Ribbon → **Manage endpoints**. Set **Default version → Version 1**. It applies immediately — there is no
+   Save button. Without this the friendly URL returns **HTTP 404** (`EndpointOrResourceNotFound`).
+3. Still in **Manage endpoints**, copy the **Model endpoint URL** (it ends with `/score`) for step 5.
 
-![Model Manage endpoints — Default version set to Version 1 and the model endpoint URL](../docs/images/lab3/lab3-03-endpoint.png)
+**Now score.**
 
-> **Note:** Registry scoring (Task 4A) works even before the endpoint is activated.
->
-> **Can't see the `Activate version endpoint` button?** It lives in the **Home** ribbon of the version
-> details page, but the ribbon **collapses it when the browser window is narrow** — maximise the window
-> (or zoom out) and it reappears as a split button. Select it → **Activate version endpoint**. The
-> **Status** field can lag; click **Refresh** to see it move `Deactivated → Activating → Active`.
-
-### Task 4 — Score sample residents
-1. Open **`09_call_model_endpoint`**, attach the Lakehouse.
-2. **Option A — registry:** run the first cell to load the model and score five residents in-notebook.
-3. **Option B — endpoint:** paste the `/score` URL from Task 3 into `ENDPOINT_URL`, run the cell, and read the
+4. Open **`09_call_model_endpoint`**, attach the Lakehouse.
+5. **Option A — registry:** run the first cell to load the model and score five residents in-notebook. This
+   needs no endpoint at all.
+6. **Option B — endpoint:** paste the `/score` URL from step 3 into `ENDPOINT_URL`, run the cell, and read the
    HTTP status plus prediction JSON printed by your run. The predicted class depends on the sampled resident.
+
+   > **Two URL forms, both valid once Version 1 is active and set as default:**
+   >
+   > | URL | Needs a default version? |
+   > |---|---|
+   > | `…/mlmodels/<id>/endpoint/score` (friendly) | **Yes** — 404s without it |
+   > | `…/mlmodels/<id>/endpoint/versions/1/score` | No — targets the version directly |
+   >
+   > On a reference run both returned `HTTP 200` with `{"predictions":[[1],[1]]}`, and both residents
+   > scored were genuinely `is_disengaged = 1`.
 
 ![Illustrative registry scoring output — five residents scored in-notebook. Your prediction list is produced live by your model.](../docs/images/lab3/lab3-04-registry-score.png)
 
@@ -165,7 +191,7 @@ flowchart LR
 > **Note:** The first endpoint call may fail with a `ReadTimeout` while the endpoint warms up (cold start).
 > Simply run the cell again — the warmed endpoint responds in a few seconds.
 >
-> **Alternative:** If you skip setting a default version (Task 3 step 3), call a specific version instead by
+> **Alternative:** If you skip setting a default version (Task 4 step 2), call a specific version instead by
 > using the version scoring URL: `…/mlmodels/<id>/endpoint/versions/1/score`.
 
 ---
@@ -173,7 +199,9 @@ flowchart LR
 ### ✅ Checkpoint
 - [ ] Three model families trained + tuned; runs visible in the experiment
 - [ ] Winner registered as a native flavor
-- [ ] Real-time endpoint returns a live prediction
+- [ ] Version 1's endpoint reached **Active**, and is set as the **default version**
+- [ ] Registry scoring returned a prediction list (Option A)
+- [ ] Real-time endpoint returned a live prediction (Option B)
 
 ---
 
