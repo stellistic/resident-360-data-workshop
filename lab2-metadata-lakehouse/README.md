@@ -60,10 +60,15 @@ your own rows filtered to your load).
 
 ### Files
 
-- `assets/metadatadb-read-cell.py` — a small helper cell that lets you read `metadatadb` from your notebook
-  (defines `q("SELECT ...")`). You paste this in **Task 1**.
-- `assets/audit-hook-cell.py` — the cell you paste at the end of your Lab 1 notebook to report your load
-  into `metadatadb`. You paste this in **Task 2**.
+These live **in the workshop kit you downloaded in Lab 0**, next to this README — the full path from the
+folder the ZIP unzipped to (or that `git clone` created) is
+`resident-360-data-workshop/lab2-metadata-lakehouse/assets/`. Open them in any text editor; on GitHub the
+links below open them directly.
+
+- [`assets/metadatadb-read-cell.py`](assets/metadatadb-read-cell.py) — a small helper cell that lets you read
+  `metadatadb` from your notebook (defines `q("SELECT ...")`). You paste this in **Task 1**.
+- [`assets/audit-hook-cell.py`](assets/audit-hook-cell.py) — the cell you paste at the end of your Lab 1
+  notebook to report your load into `metadatadb`. You paste this in **Task 2**.
 - `assets/PROVISIONING-RUNBOOK.md` — public placeholder explaining that private facilitator deployment
   instructions and artifacts are intentionally excluded from this participant repository.
 
@@ -77,8 +82,9 @@ The framework is driven by a config table — no hard-coded pipelines. You'll re
 Lab 1 notebook.
 
 1. Go to **your** workspace and open your **Lab 1 medallion notebook** (`resident360_medallion`).
-2. **Add a new cell** (anywhere after the first setup cell). Open `assets/metadatadb-read-cell.py`, copy its
-   full contents, and paste them in.
+2. **Add a new cell** (anywhere after the first setup cell). Open
+   [`lab2-metadata-lakehouse/assets/metadatadb-read-cell.py`](assets/metadatadb-read-cell.py) **from the kit
+   folder you downloaded in Lab 0**, copy its full contents, and paste them in.
 3. Check the two values at the top — `SQL_SERVER` and `SQL_DB` — match the facilitator's `metadatadb`.
    The public kit keeps placeholders; the facilitator gives you the two live values during the workshop.
 4. **Run that cell.** You should see `✅ metadatadb reader ready`.
@@ -109,7 +115,8 @@ Now make your transform **report** each run into the framework.
 
 1. Go back to **your** workspace and open your **Lab 1 medallion notebook** (`resident360_medallion`).
 2. **Add a new cell at the very end.**
-3. Open `assets/audit-hook-cell.py`, copy its full contents, and paste them into that cell.
+3. Open [`lab2-metadata-lakehouse/assets/audit-hook-cell.py`](assets/audit-hook-cell.py) from the same kit
+   folder, copy its full contents, and paste them into that cell.
 4. Confirm the `SQL_SERVER` and `SQL_DB` values at the top match the facilitator's `metadatadb`
    — these are the **same two values** you used for the reader cell in Task 1.
 5. **Run only that cell.**

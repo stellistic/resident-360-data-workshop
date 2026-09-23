@@ -44,10 +44,10 @@ flowchart LR
 **Builds on:** Lab 1's Gold (label `is_disengaged`). Turns the data into a live prediction service.
 
 ### Files
-- `notebooks/08_train_disengagement_models.ipynb` — train + tune + track + register
-- `notebooks/09_call_model_endpoint.ipynb` — score from the registry and via the live endpoint
+- [`notebooks/08_train_disengagement_models.ipynb`](notebooks/08_train_disengagement_models.ipynb) — train + tune + track + register
+- [`notebooks/09_call_model_endpoint.ipynb`](notebooks/09_call_model_endpoint.ipynb) — score from the registry and via the live endpoint
 
-> Import both notebooks and attach **`lh_resident360`**. Target = `is_disengaged` from `gold.resident_360`.
+> Import both notebooks — they are in `resident-360-data-workshop/lab3-datascience-ml/notebooks/` in the workshop kit you downloaded in Lab 0 — and attach **`lh_resident360`**. Target = `is_disengaged` from `gold.resident_360`.
 > The three columns that *define* the label are excluded from the features, so the models learn genuine risk
 > signals (MVPA, sleep, diet, healthpoints, challenges, screening) rather than memorising the rule.
 

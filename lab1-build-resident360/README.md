@@ -53,7 +53,7 @@ flowchart LR
 
 ### Files
 - `data/` — the seven Healthy 365 files you upload to the Lakehouse.
-- `notebooks/resident360_medallion.ipynb` — the **one** end-to-end notebook (Bronze → Silver → Gold + observability).
+- [`notebooks/resident360_medallion.ipynb`](notebooks/resident360_medallion.ipynb) — the **one** end-to-end notebook (Bronze → Silver → Gold + observability).
 
 ### Notebook-created object names
 Use these names exactly when checking notebook output or building downstream items:
@@ -267,7 +267,7 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
 #### 2b · Import & attach the notebook
 
 3. Workspace toolbar → **Import → Notebook → From this computer** → select
-   **`resident360_medallion.ipynb`** from the kit's `notebooks/` folder.
+   **[`resident360_medallion.ipynb`](notebooks/resident360_medallion.ipynb)** from `resident-360-data-workshop/lab1-build-resident360/notebooks/` in the workshop kit you downloaded in Lab 0.
 
    ![Import → Notebook → From this computer.](../docs/images/lab1/lab1-2b-import-notebook-menu.png)
 

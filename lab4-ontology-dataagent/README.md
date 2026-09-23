@@ -51,8 +51,8 @@ ontology uses Lab 1's event occurrence and attended-event mapping helper tables 
 confused with mere bookings.
 
 ### Files
-- `notebooks/generate_ontology.ipynb` — reads your data and prints the ontology **blueprint**.
-- `assets/data_agent_questions.md` — the agent instructions + question bank.
+- [`notebooks/generate_ontology.ipynb`](notebooks/generate_ontology.ipynb) — reads your data and prints the ontology **blueprint**.
+- [`assets/data_agent_questions.md`](assets/data_agent_questions.md) — the agent instructions + question bank.
 
 > **New to Fabric?** Each step is small and self-contained — follow them in order.
 
@@ -158,7 +158,7 @@ empty graph.
 1. Workspace → **+ New item → Data agent** → name **`Resident360 SM Agent`** → **Create**.
 2. Toolbar → **Add data → Data source** → select **`sm_resident360`** (the Lab 1 model, built on the same `gold`/`silver` tables the ontology uses) → **Add**.
 3. In the Explorer, check all six tables: **`resident_360`**, **`fact_event_attendance`**, **`fact_meal_log`**, **`fact_rewards`**, **`fact_programme_enrolment`**, **`fact_challenge`**.
-4. Toolbar → **Agent instructions** → paste the instructions from `assets/data_agent_questions.md`.
+4. Toolbar → **Agent instructions** → paste the instructions from [`lab4-ontology-dataagent/assets/data_agent_questions.md`](assets/data_agent_questions.md) in the workshop kit you downloaded in Lab 0.
    *(The instructions box is a **Markdown preview** — click it once to switch to edit mode, then paste.)*
 
 ---
@@ -167,7 +167,7 @@ empty graph.
 
 1. Workspace → **+ New item → Data agent** → name **`Resident360 Ontology Agent`** → **Create**.
 2. Toolbar → **Add data → Data source** → select **`resident_ontology`** → **Add** (added whole — no tables to check).
-3. Toolbar → **Agent instructions** → paste the same instructions from `assets/data_agent_questions.md`.
+3. Toolbar → **Agent instructions** → paste the same instructions from [`assets/data_agent_questions.md`](assets/data_agent_questions.md).
 
 ---
 
