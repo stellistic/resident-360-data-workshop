@@ -303,11 +303,22 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
    ![The medallion notebook running all cells after the Spark session starts.](../docs/images/lab1/lab1-2c-run-all-started.png)
 
 6. **Data Wrangler (Section 1).** After Bronze lands, explore Fabric's no-code data cleaning:
-   1. In the Explorer, expand **`lh_resident360` → Tables → `bronze`** and hover **`h365_meal_logs`** → **⋯** →
-      **Open in Data Wrangler**. *(Alternatively, the ribbon **Home → Data Wrangler** lists the notebook's in-memory
-      **DataFrames** by variable name — pick **`meals`**, which holds the same `bronze.h365_meal_logs` data.)*
+   1. On the ribbon choose **Home → Data Wrangler**. It lists the notebook's in-memory **DataFrames** by
+      variable name — pick **`meals`**.
+
+      > ⚠️ **Pick `meals`, with the "s". The list also contains `meal`, one letter apart, and it is a
+      > completely different table.** `meals` is the raw Bronze read — **5,000 rows × 6 columns**
+      > (`resident_id`, `log_date`, `meal_type`, `food_item`, **`calories`**, `healthier_choice_flag`).
+      > `meal` is the per-resident aggregate built later in the notebook — 1,473 rows × 4 columns, whose
+      > calorie column is **`avg_calories`**. If the header of the Data Wrangler page reads
+      > **`Data Wrangler: meal`**, you have the wrong one: go back and pick `meals`.
+
+      *(The Explorer route — expand **`lh_resident360` → Tables → `bronze`**, hover **`h365_meal_logs`** →
+      **⋯** — also offers **Open in Data Wrangler** on some sessions, but the entry is not always present.
+      The ribbon route above always works, so use it.)*
    2. In the left **Operations** panel, choose **Find and replace → Drop missing values**, select the **`calories`**
-      column, and **Apply** — watch the row count drop and the change appear in the **Cleaning steps** list.
+      column, and **Apply** — the row count drops from **5,000 to 4,998** (that column has exactly two missing
+      values) and the change appears in the **Cleaning steps** list.
    3. Try a second operation, e.g. **Schema → Change column type** on `calories` → **Decimal**.
    4. Click **Add code to notebook** (top right) — Data Wrangler adds the equivalent PySpark into a new cell so you
       can see how the selections became code. *(You don't need to run it — the notebook's Silver step performs the
