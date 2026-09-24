@@ -34,7 +34,9 @@ Foundation only — you start building the pipeline in Lab 1.
    ![The Microsoft Fabric home after signing in, with the HPB Workshop workspace under Quick access / Recent workspaces.](../docs/images/lab0/lab0-1-fabric-home.png)
 
 3. Left nav → **Workspaces** → open your assigned workspace **`HPB Resident 360 (<your username>)`** and work there.
-   Your username is the part of your sign-in before the `@` — so `kaydenzhou@…` gets `HPB Resident 360 (kaydenzhou)`.
+   Your username is the part of your sign-in before the `@`, without the `hpb.` prefix — so
+   `hpb.janetan@k-corp.dev` works in **`HPB Resident 360 (janetan)`**. The exact name is in the
+   email you were sent, along with a direct link to it.
 
    ![The Workspaces flyout listing the assigned HPB Workshop workspace.](../docs/images/lab0/lab0-1-fabric-workspace.png)
 
