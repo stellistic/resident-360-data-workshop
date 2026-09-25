@@ -54,6 +54,7 @@ flowchart LR
 ### Files
 - `data/` — the seven Healthy 365 files you upload to the Lakehouse.
 - [`notebooks/resident360_medallion.ipynb`](notebooks/resident360_medallion.ipynb) — the **one** end-to-end notebook (Bronze → Silver → Gold + observability).
+- [`assets/semantic-model-catch-up-prompts.md`](assets/semantic-model-catch-up-prompts.md) — Copilot prompts that finish Task 3's relationships and measures from wherever you are.
 
 ### Notebook-created object names
 Use these names exactly when checking notebook output or building downstream items:
@@ -377,6 +378,10 @@ Gold profile uses the mirrored Databricks `dim_resident` table.
 
 A **semantic model** is the layer reports and (later, in Lab 4) data agents read from. Build it on your **gold + selected silver**
 tables so it and the Lab 4 ontology cover the **same governed medallion data** — that makes the Lab 4 comparison a fair one.
+
+> 🏁 **Behind, or not sure what you've already built?** Once 3a has created the model, the
+> [semantic model catch-up prompts](assets/semantic-model-catch-up-prompts.md) walk Copilot through 3b and 3c from
+> wherever you are. Each prompt checks the model first and only creates or fixes what is missing.
 
 #### 3a · Create the model
 
